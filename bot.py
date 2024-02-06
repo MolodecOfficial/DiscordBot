@@ -12,12 +12,23 @@ class BotHelpCommand(commands.HelpCommand):
         channel = self.get_destination()
         await channel.send("Команды, которые могут выполняться этим ботом:")
         await channel.send("!roll - бросить кубик с рандомным числом до 20")
-        await channel.send("!TTT - сыграть в крестики-нолики. Чтобы сделать ход напишите !place и цифру, куда хотите поставить от 1 до 9.")
+        await channel.send("!meme - похихикать с мемов")
+        await channel.send(
+            "!TTT - сыграть в крестики-нолики. Чтобы сделать ход напишите !place и цифру, куда хотите поставить от 1 до 9.")
         await channel.send("Мой создатель: Moloдец, помогал LaUwUrence")
 
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all(), help_command=BotHelpCommand())
 bot.tree.add_command(GeneralGroup(bot), guild=GUILD)
+
+
+@bot.command()
+async def meme(context):
+    log("> meme")
+    channel = context.message.channel
+    author = context.message.author
+    await context.send("Вороп, увидев в новой обнове Мэри лишь в 1 рендере")
+    await context.send(file=discord.File('gifs/yes.gif'))
 
 
 @bot.event
@@ -34,6 +45,24 @@ async def write(interaction: discord.Interaction, message: str):
     await interaction.response.send_message("Message written.", ephemeral=True, delete_after=0)
     await interaction.channel.send(message)
 
+
+@bot.command()
+async def ask(context):
+    log("> ask")
+    channel = context.message.channel
+    author = context.message.author
+    result = random.randint(1, 2)
+    if result == 1:
+        await context.send(f'{context.author.mention}')
+        await context.send(" Я думаю, что..")
+        await context.send(file=discord.File('gifs/1.gif'))
+    elif result == 2:
+        await context.send(f'{context.author.mention}')
+        await context.send(" Я думаю, что..")
+        await context.send(file=discord.File('gifs/2.gif'))
+
+
+##################################################################################
 
 @bot.command()
 async def roll(context):
@@ -239,7 +268,7 @@ async def tictactoe_error(ctx, error):
         await ctx.send(
             "Упомяните два человека для использования данной команды. Пример: tictactoe @Nikoscocos @Nikoscocos API.")
     elif isinstance(error, commands.BadArgument):
-        await ctx.send("Упомяните нормально,по правилам. Пример: tictactoe @ @Nikoscocos API.")
+        await ctx.send("Упомяните нормально,по правилам. Пример: tictactoe @Nikoscocos @Nikoscocos API.")
 
 
 @place.error
